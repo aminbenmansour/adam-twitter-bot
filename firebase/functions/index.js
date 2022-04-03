@@ -29,7 +29,19 @@ exports.auth = functions.https.onRequest(async (request, response) => {
   });
 
 // step 2
-exports.callback = functions.https.onRequest((request, response) => {});
+exports.callback = functions.https.onRequest(async (request, response) => {
+
+    const { state, code } = request.query;
+
+    const dbSnapshot = await dbRef.get();
+    const { codeVerifier, state: storedState } = dbSnapshot.data();
+
+    if (state != storedState) {
+        return response.status(400).send('Stored tokens do not match!')
+    } else {
+        // TODO proceeding to login
+    }
+});
 
 // step 3
 exports.tweet = functions.https.onRequest((request, response) => {});
