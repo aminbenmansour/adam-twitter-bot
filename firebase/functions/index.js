@@ -13,6 +13,8 @@ const twitterClient = new TwitterApi({
     clientSecret: process.env.CLIENT_SECRET,
 });
 
+const callbackURL = "http://127.0.0.1:5000/openai-bots-a7270/us-central1/callback";
+
 // step 1
 exports.auth = functions.https.onRequest((request, response) => {});
 
