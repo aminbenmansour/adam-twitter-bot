@@ -28,18 +28,25 @@ exports.auth = functions.https.onRequest(async (request, response) => {
     response.redirect(url);
   });
 
-// step 2
+// STEP 2 - Verify callback code, store access_token 
 exports.callback = functions.https.onRequest(async (request, response) => {
-
     const { state, code } = request.query;
 
     const dbSnapshot = await dbRef.get();
     const { codeVerifier, state: storedState } = dbSnapshot.data();
 
     if (state != storedState) {
-        return response.status(400).send('Stored tokens do not match!')
+        return response.status(400).send('Stored tokens do not match!');
     } else {
-        // TODO proceeding to login
+        const { client: loggedClient, accessToken, refreshToken } = await twitterClient.loginWithOAuth2({
+            code, codeVerifier, redirectUri: callbackURL
+            });
+        
+        await dbRef.set({ accessToken, refreshToken });
+        
+        const { data } = await loggedClient.v2.me(); // start using the client if you want
+        
+        response.send(data);
     }
 });
 
