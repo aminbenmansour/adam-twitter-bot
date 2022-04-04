@@ -15,6 +15,15 @@ const twitterClient = new TwitterApi({
 
 const callbackURL = "http://127.0.0.1:5000/openai-bots-a7270/us-central1/callback";
 
+// OpenAI API init
+const { Configuration, OpenAIApi } = require('openai');
+const configuration = new Configuration({
+  organization: process.env.OPENAI_ORG,
+  apiKey: process.env.OPENAI_SECRET,
+});
+
+const openai = new OpenAIApi(configuration);
+
 // STEP 1 - Auth URL
 exports.auth = functions.https.onRequest(async (request, response) => {
     const { url, codeVerifier, state } = twitterClient.generateOAuth2AuthLink(
