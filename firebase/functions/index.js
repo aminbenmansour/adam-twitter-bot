@@ -60,4 +60,7 @@ exports.callback = functions.https.onRequest(async (request, response) => {
 });
 
 // step 3
-exports.tweet = functions.https.onRequest((request, response) => {});
+exports.tweet = functions.https.onRequest((request, response) => {
+
+  const { refreshToken } = (await dbRef.get()).data();
+});
