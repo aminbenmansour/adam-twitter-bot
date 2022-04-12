@@ -63,4 +63,10 @@ exports.callback = functions.https.onRequest(async (request, response) => {
 exports.tweet = functions.https.onRequest((request, response) => {
 
   const { refreshToken } = (await dbRef.get()).data();
+
+  const {
+    client: refreshedClient,
+    accessToken,
+    refreshToken: newRefreshToken
+  } = await twitterClient.refreshOAuth2Token(refreshToken);
 });
