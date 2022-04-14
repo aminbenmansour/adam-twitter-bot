@@ -71,4 +71,6 @@ exports.tweet = functions.https.onRequest((request, response) => {
   } = await twitterClient.refreshOAuth2Token(refreshToken);
 
   await dbRef.set({accessToken, refreshToken: newRefreshToken});
+
+  const { data } = await refreshedClient.v2.me();
 });
