@@ -73,4 +73,6 @@ exports.tweet = functions.https.onRequest((request, response) => {
   await dbRef.set({accessToken, refreshToken: newRefreshToken});
 
   const { data } = await refreshedClient.v2.me();
+
+  response.send(data);
 });
