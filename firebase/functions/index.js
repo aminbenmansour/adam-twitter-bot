@@ -74,5 +74,10 @@ exports.tweet = functions.https.onRequest((request, response) => {
 
   const { data } = await refreshedClient.v2.me();
 
+  const nextTweet = await.openai.createCompletion('text-davinci-001', {
+    prompt: 'tweet something cool for #techtwitter',
+    max_tokens: 64,
+  });
+
   response.send(data);
 });
