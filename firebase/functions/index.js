@@ -79,5 +79,9 @@ exports.tweet = functions.https.onRequest((request, response) => {
     max_tokens: 64,
   });
 
+  const { data } = await refreshedClient.v2.tweet(
+    nextTweet.data.choices[0].text
+  )
+
   response.send(data);
 });
